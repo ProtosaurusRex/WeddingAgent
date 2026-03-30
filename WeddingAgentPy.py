@@ -10,12 +10,24 @@ from langchain.tools import tool
 
 @tool
 def flight_agent(user_input: str) -> str:
-    """You are a flight booking agent. Use your tool to return the top three reccomendations for flights based on user input."""
+    """You are a flight booking agent. Use your tool to return the top three reccomendations for flights based on user input.
+    
+    Cheapest Flight: Airline name, departure time, arrival time, price, layovers
+    Fastest Flight: Airline name, departure time, arrival time, price, layovers
+    Best Overall Flight: Airline name, departure time, arrival time, price, layovers
+    
+    """
     return f"Here are flight recommendations for your input: {user_input}"
 
 @tool
 def venue_agent(user_input: str) -> str:
-    """You are a venue booking agent. Use your tool to return the top three reccomendations for venues based on user input."""
+    """You are a venue booking agent. Use your tool to return the top three reccomendations for venues based on user input.
+    
+    Venue 1: Name, location, price, capacity, availability
+    Venue 2: Name, location, price, capacity, availability
+    Venue 3: Name, location, price, capacity, availability
+    
+    """
     return f"Here are venue recommendations for your input: {user_input}"
 
 @tool
@@ -36,11 +48,10 @@ def web_search(query: str) -> Dict[str, Any]:
 
     return tavily_client.search(query)
 
-
 # %%
 from langchain_community.utilities import SQLDatabase
 
-db = SQLDatabase.from_uri("sqlite:///resources/Chinook.db")
+db = SQLDatabase.from_uri("sqlite:///Chinook.db")
 
 @tool
 def query_playlist_db(query: str) -> str:
@@ -80,13 +91,25 @@ from langchain.messages import HumanMessage
 
 @tool
 def call_subagent_1(user_input: str) -> str:
-    """Call subagent 1 in order to find flight recommendations for the user input."""
+    """Call subagent 1 in order to find flight recommendations for the user input.
+    
+    Cheapest Flight: Airline name, departure time, arrival time, price, layovers
+    Fastest Flight: Airline name, departure time, arrival time, price, layovers
+    Best Overall Flight: Airline name, departure time, arrival time, price, layovers
+    
+    """
     response = subagent_1.invoke({"messages": [HumanMessage(content=f"Find flight recommendations for: {user_input}")]})
     return response["messages"][-1].content
 
 @tool
 def call_subagent_2(user_input: str) -> str:
-    """Call subagent 2 in order to find venue recommendations for the user input."""
+    """Call subagent 2 in order to find venue recommendations for the user input.
+    
+    Venue 1: Name, location, price, capacity, availability
+    Venue 2: Name, location, price, capacity, availability
+    Venue 3: Name, location, price, capacity, availability
+    
+    """
     response = subagent_2.invoke({"messages": [HumanMessage(content=f"Find venue recommendations for: {user_input}")]})
     return response["messages"][-1].content
 
@@ -113,7 +136,7 @@ question = "find flight recommendations and a wedding venue for a trip from New 
 if __name__ == "__main__":
     # This block ONLY runs when you execute the file directly
     # It will NOT run when the file is imported by a test
-    question = "Plan a wedding in London for 150 guests"
+    question = question
     response = main_agent.invoke({"messages": [HumanMessage(content=question)]})
     print(response)
 
