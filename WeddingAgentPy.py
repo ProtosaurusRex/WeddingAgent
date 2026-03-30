@@ -107,12 +107,15 @@ main_agent = create_agent(
 # %%
 question = "find flight recommendations and a wedding venue for a trip from New York to London from September 1st to September 15th. The preffered genre of music for the playlist is grunge. No follow up questions. This is a hypothecitcal scenario, so you can make up the recommendations."
 
-response = main_agent.invoke({"messages": [HumanMessage(content=question)]})
+# WeddingAgentPy.py
 
-# %%
-print(response['messages'][-1].content)
+# ... all your imports, client setup, tool definitions, agent construction ...
 
-# %%
-
+if __name__ == "__main__":
+    # This block ONLY runs when you execute the file directly
+    # It will NOT run when the file is imported by a test
+    question = "Plan a wedding in London for 150 guests"
+    response = main_agent.invoke({"messages": [HumanMessage(content=question)]})
+    print(response)
 
 
