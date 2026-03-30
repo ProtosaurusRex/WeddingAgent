@@ -27,7 +27,8 @@ def playlist_agent(user_input: str) -> str:
 from typing import Dict, Any
 from tavily import TavilyClient
 
-tavily_client = TavilyClient()
+def get_tavily_client():
+    return TavilyClient()
 
 @tool
 def web_search(query: str) -> Dict[str, Any]:
