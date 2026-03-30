@@ -19,8 +19,10 @@ def test_genre_table_has_data():
     """Genre table must contain at least one row."""
     result = query_playlist_db.invoke("SELECT COUNT(*) FROM Genre")
     assert "Error" not in result
-    count = int(result.strip().replace("[('", "").split(",")[0].replace("(",""))
-    assert count > 0, "Genre table is empty."
+
+    # Strip brackets, parens, spaces and grab the number
+    count = int(result.strip().strip("[]").strip("()").split(",")[0].strip())
+    assert count > 0, f"Expected at least 1 genre, got {count}"
 
 def test_rock_genre_exists():
     """
